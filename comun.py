@@ -17,14 +17,18 @@ numeros = {
 }
 
 
-
+""" 
+    Función que toma el caracter y devuelve su número correspondiente
+"""
 def traducir_caracter(caracter):
     if isinstance(caracter, str): 
         return caracteres[caracter.upper()]
 
     raise Exception("El valor recibido debe ser un caracter")
 
-
+""" 
+    Función que toma el número y devuelve un caracter dado
+"""
 def traducir_numero(numero):
     if isinstance(numero, int): 
         return numeros[numero]
