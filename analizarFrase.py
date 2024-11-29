@@ -67,6 +67,9 @@ def contar_apariciones(frase_larga):
 
         # Convertimos a Mayus
         c = frase_larga[i].upper()
+        
+        if(c == " " or c == "*"):
+            continue
 
         # Revisamos si ya guardamos su aparición
         if c in contadores:
