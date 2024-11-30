@@ -17,7 +17,7 @@ def main():
     print("\nVeamos cual fue el caracter más repetido en la frase original")
     count_appearances(sanitized_phrase)
 
-    print("\n\nFrase Encriptada por el cripto sistema 1:", encrypted_phrase )
+    print("\n\nFrase Encriptada por el criptosistema 1:", encrypted_phrase )
     print("Frase Desnecriptada luego de aplicarle la encriptación del sistema 1:", decrypted_phrase)
     
     print("\nVeamos cual fue el caracter más repetido en la frase encriptada")
@@ -25,11 +25,11 @@ def main():
 
 
 
-    # Ahora vamos con el cripto sistema 2
+    # Ahora vamos con el criptosistema 2
     
     print("\nVamos ahora a trabajar con el criptosistema2")
     encrypted_phrase2 =  encrypt_phrase_as_vector(sanitized_phrase)
-    print("\nFrase encriptada con el cripto sistema 2:", encrypted_phrase2)
+    print("\nFrase encriptada con el criptosistema 2:", encrypted_phrase2)
     
     print("\nVeamos cual fue el caracter más repetido en la segunda frase encriptada")
     count_appearances(encrypted_phrase2)
@@ -37,7 +37,7 @@ def main():
     decrypted_phrase2 = desencrypt_phrase_as_vector(encrypted_phrase2)
     print("\nFrase desencriptada luego de encriptarla con el criptosistema2", decrypted_phrase2)
     
-    print("\nVeamos cual fue el caracter más repetido en la frase desencriptada luego de aplicarle el cripto sistema 2")
+    print("\nVeamos cual fue el caracter más repetido en la frase desencriptada luego de aplicarle el criptosistema 2")
     count_appearances(decrypted_phrase2)
 
 
