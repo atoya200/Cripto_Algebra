@@ -1,4 +1,4 @@
-from comun import characters
+from common import characters
 
 
 """ 
@@ -88,8 +88,6 @@ def count_appearances(long_phrase, is_a_encripted_phrase = False):
             max_value = new_value
             max_character = c
 
-    # Ahora debemos asegurarnos que no nos quedamos con el espacio o con el *, ya que no son "letras"
-    
     # Pasamos a mostrar cada dato        
     print("Caracter con más apariciones", max_character)
     print("Cantidad de apariciones", max_value)

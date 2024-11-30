@@ -1,4 +1,4 @@
-from comun import a, b, translate_character, translate_number
+from common import a, b, translate_character, translate_number
 import math
 
 def encrypt_character(character):

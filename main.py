@@ -1,12 +1,12 @@
-from analizarFrase import sanctify_phrase, count_appearances
-from criptografia1 import encrypt_phrase, desencrypt_phrase
-from criptografia2 import encrypt_phrase_as_vector, desencrypt_phrase_as_vector
+from analyze_phrase import sanctify_phrase, count_appearances
+from cryptography_1 import encrypt_phrase, desencrypt_phrase
+from cryptography_2 import encrypt_phrase_as_vector, desencrypt_phrase_as_vector
 
 
 
 def main():
         
-    long_phrase = "El análisis detallado de los datos permitió descubrir patrones inesperados que no habían sido contemplados previamente."
+    long_phrase = "La especificación del sistema establece estrictamente estándares esenciales para el desarrollo eficiente del software."
     sanitized_phrase = sanctify_phrase(long_phrase)
     encrypted_phrase = encrypt_phrase(sanitized_phrase)
     decrypted_phrase = desencrypt_phrase(encrypted_phrase)

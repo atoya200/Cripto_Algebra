@@ -1,4 +1,4 @@
-from comun import a,b, translate_character, translate_number
+from common import a,b, translate_character, translate_number
 import numpy as np
 
 # Transformación Lineal elegida
@@ -81,42 +81,42 @@ def encrypt_terna(terna):
     Convierte una frase de 100 caracteres o más en 
     una frase encriptada aplicando el criptosistema 2
 """
-def encrypt_phrase_as_vector(frase):
+def encrypt_phrase_as_vector(phrase):
 
     # Si la entrada no es un cadena de caracteres  o si es menor a 100 caracteres
-    if not(isinstance(frase, str)) or len(frase) < 100:
+    if not(isinstance(phrase, str)) or len(phrase) < 100:
         raise Exception("Entrada invalida")
 
     # Ya nos preparamos de antemano y si el tamaño de la cadena no es 
     # multiplo de 3 significa que hay que adicionar espacios en blanco
     # Si da módulo 1, faltan dos espacios
     # Si da módulo 2, falta un espacio
-    tamaño = len(frase)
+    phrase_size = len(phrase)
     add = ""
-    if(tamaño % 3 == 1):
+    if(phrase_size % 3 == 1):
         add = "  " 
-    elif (tamaño % 3 == 2):
+    elif (phrase_size % 3 == 2):
         add = " "
     
     # Agregamos los espacios o nada si es múltiplo
-    frase +=add
+    phrase +=add
 
-    ternas_encriptadas = []
+    encrypted_ternas = []
 
     # Pasamos a recorrer la frase, separando de a 3 caracteres
-    for i in range(0, tamaño, 3):
+    for i in range(0, phrase_size, 3):
 
         # Tomamos la terna
-        terna = frase[i:i+3]
+        terna = phrase[i:i+3]
 
         # Hacemos la encriptación
         encrypted_terna = encrypt_terna(terna)
 
         # Guardamos el valor encriptado
-        ternas_encriptadas.append(encrypted_terna)
+        encrypted_ternas.append(encrypted_terna)
 
     # En vez de devolver las ternas, ya devolvemos la frase encriptada
-    return rearm_phrase(ternas_encriptadas)
+    return rearm_phrase(encrypted_ternas)
 
 
 """ 
@@ -145,14 +145,13 @@ def rearm_phrase(ternas):
             raise ValueError(f"El array en la posición {i} no tiene 3 filas y 1 columna. Forma encontrada: {arr.shape}")
          
     
-    caracteres = []
+    characters = []
     for t in ternas:
-        caracteres.append(t[0][0])
-        caracteres.append(t[1][0])
-        caracteres.append(t[2][0])
+        characters.append(t[0][0])
+        characters.append(t[1][0])
+        characters.append(t[2][0])
     
-    frase = "".join(caracteres)
-    return frase
+    return "".join(characters)
 
 
 """ 
