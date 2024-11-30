@@ -42,7 +42,7 @@ def sanctify_phrase(phrase):
     También devuelve las posiciones en las que lo encontró y la cantidad de 
     repeticiones. 
 """
-def count_appearances(long_phrase, is_a_encripted_phrase = False):
+def count_appearances(long_phrase):
 
 
     # Validamos que la variable sea un string
