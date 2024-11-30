@@ -1,4 +1,4 @@
-from comun import a,b, traducir_caracter, traducir_numero
+from comun import a,b, translate_character, translate_number
 import numpy as np
 
 # Transformación Lineal elegida
@@ -11,12 +11,12 @@ b = np.array([[1], [2], [3]])
 
 
 # Calcular la matriz inversa
-A_inv = np.linalg.inv(A)
+A_reverse = np.linalg.inv(A)
 
 """ 
     Función que nos sirve para realizar la transformación lineal elegida
 """
-def transformacion_lineal(vector):
+def linear_transformation(vector):
     # Control de tamaños
     if vector is None or not isinstance(vector, np.ndarray):
         raise Exception("Debe ser un vector")
@@ -33,47 +33,47 @@ def transformacion_lineal(vector):
     # Le aplicamos la transformación lineal 
     # T(x) = (x + 2y + z, y-2, z)
     # y guardamos su resultado
-    vector_transformado = np.array([[x + 2 * y + z], [y -z],[z]])
+    transformed_vector = np.array([[x + 2 * y + z], [y -z],[z]])
 
-    return vector_transformado
+    return transformed_vector
 
 
 """ 
     Toma tres caracteres, genera la terna y la encripta basandose en la función
     elegida para este criptsistema
 """
-def encriptar_terna(terna):
+def encrypt_terna(terna):
 
     # Revisamos que venga una terna de 3 caracteres
     if not(isinstance(terna, str)) or len(terna) != 3:
         raise Exception("Información invalida")
 
     # Tomamos los caracteres para x11 o x, x21 o y, y para x31 o z
-    x11 = traducir_caracter(terna[0])
-    x21 = traducir_caracter(terna[1])
-    x31 = traducir_caracter(terna[2])
+    x11 = translate_character(terna[0])
+    x21 = translate_character(terna[1])
+    x31 = translate_character(terna[2])
 
     # Les aplicamos la transformación lineal
-    transform_lineal = transformacion_lineal(np.array([[x11], [x21], [x31]]))
+    linear_transform = linear_transformation(np.array([[x11], [x21], [x31]]))
 
     # Le sumamos el vector columna b
-    resultado_final = (transform_lineal + b) % 29
+    final_result = (linear_transform + b) % 29
 
 
     # Ahora cada número vamos a obtener su correlación en la tabla
-    x = int(resultado_final[0][0])
-    y = int(resultado_final[1][0])
-    z = int(resultado_final[2][0])
+    x = int(final_result[0][0])
+    y = int(final_result[1][0])
+    z = int(final_result[2][0])
 
     # Traducimos de número a letra
-    x = traducir_numero(x)
-    y = traducir_numero(y)
-    z = traducir_numero(z)
+    x = translate_number(x)
+    y = translate_number(y)
+    z = translate_number(z)
 
     # Armamos una  nueva matriz de 1x3 como la terna encriptada
-    terna_encriptada = np.array([[x], [y], [z]])
+    encrypted_terna = np.array([[x], [y], [z]])
 
-    return terna_encriptada
+    return encrypted_terna
 
     
 
@@ -81,7 +81,7 @@ def encriptar_terna(terna):
     Convierte una frase de 100 caracteres o más en 
     una frase encriptada aplicando el criptosistema 2
 """
-def encriptar_frase_as_vector(frase):
+def encrypt_phrase_as_vector(frase):
 
     # Si la entrada no es un cadena de caracteres  o si es menor a 100 caracteres
     if not(isinstance(frase, str)) or len(frase) < 100:
@@ -110,20 +110,20 @@ def encriptar_frase_as_vector(frase):
         terna = frase[i:i+3]
 
         # Hacemos la encriptación
-        terna_encriptada = encriptar_terna(terna)
+        encrypted_terna = encrypt_terna(terna)
 
         # Guardamos el valor encriptado
-        ternas_encriptadas.append(terna_encriptada)
+        ternas_encriptadas.append(encrypted_terna)
 
     # En vez de devolver las ternas, ya devolvemos la frase encriptada
-    return rearmar_frase(ternas_encriptadas)
+    return rearm_phrase(ternas_encriptadas)
 
 
 """ 
     Toma una lista de ternas y va rearmando una frase legible por humanos, encriptada o no, 
     esto dependerá de quien la invoque
 """
-def rearmar_frase(ternas):
+def rearm_phrase(ternas):
 
     """ print(ternas)
     # Comprobamos que no venga nulo o None y que tenga las dimensiones adecuadas
@@ -159,72 +159,71 @@ def rearmar_frase(ternas):
     Aplica una función de desencriptación para una terna en particular, que llega 
     como un conjunto de tres caracteres, encontrando el valor original
 """
-def desencriptar_terna(terna_encriptada):
+def decrypt_terna(encrypted_terna):
 
     # Comprobamos que no venga nulo o None y que tenga las dimensiones adecuadas
-    #if terna_encriptada == None or not(terna_encriptada.shape[0] == 3 and terna_encriptada.shape[1] == 1):
-    if terna_encriptada == None or len(terna_encriptada) != 3:
+    if encrypted_terna == None or len(encrypted_terna) != 3:
         raise Exception("Entrada invalida")
 
     # Obtenemos cada valor encriptado correspondiente
-    x = terna_encriptada[0]
-    y = terna_encriptada[1]
-    z = terna_encriptada[2]
+    x = encrypted_terna[0]
+    y = encrypted_terna[1]
+    z = encrypted_terna[2]
 
     # Pasamos de letras a números
-    x = traducir_caracter(x)
-    y = traducir_caracter(y)
-    z = traducir_caracter(z)
+    x = translate_character(x)
+    y = translate_character(y)
+    z = translate_character(z)
 
     # Armamos la tenra númerica
-    terna_numerica = np.array([[x], [y], [z]])
+    triple_numeric = np.array([[x], [y], [z]])
 
     
     # La función para desencriptar
     # (A^-1 * (x - b)) % 29
-    tmp = terna_numerica - b
-    por_asociada = np.dot(A_inv, tmp)
-    terna_desencriptada = por_asociada % 29
+    tmp = triple_numeric - b
+    tmp_result = np.dot(A_reverse, tmp)
+    terna_decrypted = tmp_result % 29
 
     # Ahora tomamos cada valor
-    x = int(terna_desencriptada[0][0])
-    y = int(terna_desencriptada[1][0])
-    z = int(terna_desencriptada[2][0])
+    x = int(terna_decrypted[0][0])
+    y = int(terna_decrypted[1][0])
+    z = int(terna_decrypted[2][0])
 
     # Ahora lo convertimos en texto
-    x = traducir_numero(x)
-    y = traducir_numero(y)
-    z = traducir_numero(z)
+    x = translate_number(x)
+    y = translate_number(y)
+    z = translate_number(z)
 
-    terna_desencriptada_letras = np.array([[x], [y], [z]])
+    terna_decrypted_letters = np.array([[x], [y], [z]])
 
-    return terna_desencriptada_letras
+    return terna_decrypted_letters
 
 """ 
     Esta función toma una frase de al menos 100 caracteres y que debe 
     tener un tamaño que sea multiplo de 3, dado que viene encriptada con el sistema 
     anterior. Luego desencripta de a tres caractres, y luego devuelve la frase original
 """
-def desencriptar_frase_as_vector(frase_encriptada):
+def desencrypt_phrase_as_vector(encrypted_phrase):
 
-    if not(isinstance(frase_encriptada, str)) or len(frase_encriptada) < 100:
+    if not(isinstance(encrypted_phrase, str)) or len(encrypted_phrase) < 100:
         raise Exception("Entrada invalida")
 
     # Primero vemos si es divisible entre 3, si lo es, cortamos cada 3 sin problema
-    if len(frase_encriptada) % 3 != 0:
+    if len(encrypted_phrase) % 3 != 0:
         raise Exception("Esta frase no esta encriptada por este algoritmo")
     
-    tamaño = len(frase_encriptada)
+    encrypted_phrase_size = len(encrypted_phrase)
     ternas = []
-    for i in range(0, tamaño, 3):
+    for i in range(0, encrypted_phrase_size, 3):
 
         # Tomamos una terna de caracteres
-        terna = frase_encriptada[i:i+3]
+        terna = encrypted_phrase[i:i+3]
 
         # Desencriptamos los caractres
-        terna_desencriptada = desencriptar_terna(terna)
+        terna_decrypted = decrypt_terna(terna)
 
         # Vamos guardando lo que desencriptamos
-        ternas.append(terna_desencriptada)
+        ternas.append(terna_decrypted)
 
-    return rearmar_frase(ternas)
+    return rearm_phrase(ternas)

@@ -1,4 +1,5 @@
-from comun import caracteres
+from comun import characters
+
 
 """ 
     Función que se encarga de sanitizar la frase recibida.
@@ -7,39 +8,31 @@ from comun import caracteres
     Convertimos las minúsculas a mayúsculas
     Omitimos caracteres que no se incluyen
 """
-def santitizar_frase(frase):
+def sanctify_phrase(phrase):
 
     # En este punto lo que debemos controlar es que la información sea de tipo string
-    if not(isinstance(frase, str)):
+    if not(isinstance(phrase, str)):
         raise Exception("El valor recibido deber ser una cadena de caracteres")
-    
+
     # Para remplazar un tilde por un caracter valido
-    reemplazos = { 'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U' }
+    replacements = { 'Á': 'A', 'É': 'E', 'Í': 'I', 'Ó': 'O', 'Ú': 'U' }
+    sanitized_characters = []
 
-    caracteres_sanitizados = []
-
-    for i in frase:
+    for i in phrase:
         c = i.upper()
-        
-        if c in reemplazos:
-            caracteres_sanitizados.append(reemplazos[c])
-            continue
-
-        if c == '.':
-            caracteres_sanitizados.append("*")
+        if c in replacements:
+            sanitized_characters.append(replacements[c])
             continue
         
         # La politica actualmente es si no esta y no es un punto, no lo incluimos en el cifrado
-        if c not in caracteres:
+        if c not in characters:
             continue
-        
-        # Cuando llega acá es un caracter valido y lo agrega
-        caracteres_sanitizados.append(c)
-            
-    # Arma una frase completa y la devuelve
-    frase_sanitizada = "".join(caracteres_sanitizados)
-    return frase_sanitizada
 
+        # Cuando llega acá es un caracter valido y lo agrega
+        sanitized_characters.append(c)
+
+    # Arma una frase completa y la devuelve
+    return "".join(sanitized_characters)
 
 
 """ 
@@ -49,50 +42,56 @@ def santitizar_frase(frase):
     También devuelve las posiciones en las que lo encontró y la cantidad de 
     repeticiones. 
 """
-def contar_apariciones(frase_larga):
+def count_appearances(long_phrase, is_a_encripted_phrase = False):
+
 
     # Validamos que la variable sea un string
-    if not(isinstance(frase_larga, str)):
+    if not(isinstance(long_phrase, str)):
         raise Exception("El valor recibido deber ser una cadena de caracteres")
     
-    # Hacemos impresiones de los datos de interes
-    contadores = {}
-    posiciones = {}
-    valor_maximo = 0
-    caracter_maximo = ""
+
+    # Declaramos las variables que usaremos más adelante
+    counters = {}
+    positions = {}
+    max_value = 0
+    max_character = ""
+
 
     # Iteramos sobre la frase de forma indexada
-    for i in range(0, len(frase_larga)):
-        valor_nuevo = -2
+    for i in range(0, len(long_phrase)):
+        new_value = -2
 
         # Convertimos a Mayus
-        c = frase_larga[i].upper()
-        
-        if(c == " " or c == "*"):
-            continue
+        c = long_phrase[i].upper()
 
         # Revisamos si ya guardamos su aparición
-        if c in contadores:
+        if c in counters:
 
             # Si ya fue así, obtenemos el 
             # valor anterior, le sumamos 1 y volvemos a guardarlo
-            valor_nuevo = contadores[c] + 1
-            contadores[c] = valor_nuevo
+            new_value = counters[c] + 1
+
+            counters[c] = new_value
 
             # Agregamos la posición 
-            posiciones[c].append(i)
+            positions[c].append(i)
+
         else:
             # No estaba considerado, guardamos la posición y el valor
-            contadores[c] = 1
-            posiciones[c] = [i]
+            counters[c] = 1
+            positions[c] = [i]
         
+
         # Comparmos, si el nuevo es mayor que el máximo anterior, sustituimos
         # y nos guardamos al caracteres que lo cumple
-        if valor_maximo < valor_nuevo:
-            valor_maximo = valor_nuevo
-            caracter_maximo = c
+        if max_value < new_value:
+            max_value = new_value
+            max_character = c
 
+    # Ahora debemos asegurarnos que no nos quedamos con el espacio o con el *, ya que no son "letras"
+    
     # Pasamos a mostrar cada dato        
-    print("Caracter con más apariciones", caracter_maximo)
-    print("Cantidad de apariciones", valor_maximo)
-    print("Posiciones de la cadena donde apareció", posiciones[caracter_maximo])
+    print("Caracter con más apariciones", max_character)
+    print("Cantidad de apariciones", max_value)
+    print("Posiciones de la cadena donde apareció", positions[max_character])
+    
